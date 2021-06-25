@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
+import Cards from '../components/Cards';
+import requests from '../utils/requests';
 
-export default function Home() {
+export default function Home({ results }) {
   return (
     <div>
       <Head>
@@ -15,7 +17,24 @@ export default function Home() {
 
       <Nav />
 
-      {/* Cards */}
+      <Cards results={results} />
     </div>
   );
+}
+
+// 서버에서 먼저 rendering됨
+export async function getServerSideProps(context) {
+  const genre = context.query.genre;
+
+  const request = await fetch(
+    `https://api.themoviedb.org/3${
+      requests[genre]?.url || requests.fetchTrending.url
+    }`
+  ).then((res) => res.json());
+
+  return {
+    props: {
+      results: request.results,
+    },
+  };
 }
