@@ -1,4 +1,4 @@
-import Thumbnail from './thumbnail';
+import Thumbnail from './Thumbnail';
 import FlipMove from 'react-flip-move';
 
 const Cards = ({ results }) => {
